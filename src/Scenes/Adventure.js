@@ -44,12 +44,16 @@ class Adventure extends Phaser.Scene {
             //Handles Text and Important Special Characters
             if ((
                 input.keyCode >= 65  && input.keyCode <= 90  //A-Z
-                || [32, 109, 189].includes(input.keyCode)) // Space, -
-                || input.keyCode >= 48  && input.keyCode <= 57 // 0-9
+                || [32, 109, 189].includes(input.keyCode) // Space, -
+                || input.keyCode >= 48  && input.keyCode <= 57) // 0-9
                 && this.inputText.text.length < 54){
                 this.inputText.text += input.key;
             }
 
           }, this);
+    }
+
+    addLog(input){
+        this.log.text += input + "\n";
     }
 }

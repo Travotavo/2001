@@ -8,6 +8,7 @@ class Adventure extends Phaser.Scene {
 
     constructor(){
         super("adventure_scene");
+        this.room = new AdventureRooms(this);
     }
 
     create(){
@@ -26,7 +27,6 @@ class Adventure extends Phaser.Scene {
         this.inputText = this.add.bitmapText(22, 461, 'pixelfont', '', 10).setOrigin(0,0.5);
         this.inputText.setTint(0xFF6600);
         
-        
         //Simulate Keyboard Functions
         this.input.keyboard.on('keydown', function(input) {
             //handles backspace
@@ -37,7 +37,7 @@ class Adventure extends Phaser.Scene {
             //handles enter
             if (input.keyCode == 13){
                 this.log.text += "> " + this.inputText.text + "\n";
-                console.log(this.inputText.text.length);
+                this.room.handleInput(this.inputText.text);
                 this.inputText.text = '';
             }
 

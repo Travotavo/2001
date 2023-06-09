@@ -19,6 +19,9 @@ class AdventureRooms {
             this.parent.addLog("Available actions: "+ this.verbs.join(', '));
             return true;
         }
+        if (input == "look" || input == "l"){
+            this.parent.addLog("Looks like something (Not implemented yet)");
+        }
     }
     interpretInput(input){
     }

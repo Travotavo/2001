@@ -31,7 +31,8 @@ class HalCore extends AdventureRooms{
 
     constructor(parent){
         var verbs = [
-            "advance"
+            "advance",
+            "yes"
         ]
         var nouns = [
             "iv-2logicterminal1",
@@ -122,22 +123,32 @@ class HalCore extends AdventureRooms{
                 if (!this.nouns.includes(input[1])){
                     this.parent.addLog("\""+input[1]+"\" is not recognized");
                     return;
-                }
+                } //Checks if noun is valid
+
                 if (!this.cores.includes(input[1])){
                     this.parent.addLog("\""+input[1]+"\" cannot be removed");
                     return;
-                }
+                } //Checks if core has already been removed (or is even core)
+
                 var index = this.cores.indexOf(input[1]);
                 if (index !== -1) {
                     this.cores.splice(index, 1);
-                }
+                } //Removes core from list above
+
                 this.coresRemaining -= 1;
                 this.halReturns();
                 if (this.coresRemaining == 0){
                     this.parent.scene.start('credits_scene');
                 }
                 break;
+
             case "yes":
+                var index = this.verbs.indexOf("yes");
+                if (index !== -1) {
+                    this.verbs.splice(index, 1);
+                }
+                this.parent.addLog("    [It's called, 'Daisy.']");
+                this.parent.sound.play('daisy', {volume: 0.05});
                 break;
             case "advance":
                 this.verbs.push("remove");

@@ -1,5 +1,6 @@
 class Adventure extends Phaser.Scene {
     preload(){
+        this.load.audio('daisy', './assets/sounds/daisy_rip.wav')
         this.load.audio('tap1', './assets/sounds/taps/tap1.wav');
         this.load.audio('tap2', './assets/sounds/taps/tap2.wav');
         this.load.audio('tap3', './assets/sounds/taps/tap3.wav');

@@ -69,6 +69,18 @@ class HalCore extends AdventureRooms{
         ];
         super(parent,verbs,nouns);
         this.cores = [
+            "memorycore1",
+            "memorycore2",
+            "memorycore3",
+            "memorycore4",
+            "memorycore5",
+            "memorycore6",
+            "memorycore7",
+            "memorycore8",
+            "memorycore9",
+            "memorycore10",
+            "memorycore11",
+            "memorycore12",
             "iv-2logicterminal1",
             "iv-2logicterminal2",
             "iv-2logicterminal3",
@@ -84,19 +96,7 @@ class HalCore extends AdventureRooms{
             "iv-3logicterminal9",
             "iv-3logicterminal10",
             "iv-3logicterminal11",
-            "iv-3logicterminal12",
-            "memorycore1",
-            "memorycore2",
-            "memorycore3",
-            "memorycore4",
-            "memorycore5",
-            "memorycore6",
-            "memorycore7",
-            "memorycore8",
-            "memorycore9",
-            "memorycore10",
-            "memorycore11",
-            "memorycore12"
+            "iv-3logicterminal12"
         ]
         this.coresRemaining = 28;
         this.meltdown = 0;
@@ -125,6 +125,9 @@ class HalCore extends AdventureRooms{
             case "remove":
                 if (!this.nouns.includes(input[1])){
                     this.parent.addLog("\""+input[1]+"\" is not recognized");
+                    if (input[1]==""){
+                        this.parent.addLog("Hint: try remove " + this.cores[0]);
+                    }
                     return;
                 } //Checks if noun is valid
 

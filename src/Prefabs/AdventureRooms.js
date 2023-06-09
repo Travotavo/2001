@@ -141,6 +141,8 @@ class HalCore extends AdventureRooms{
                 this.coresRemaining -= 1;
                 if (!this.singing){
                     this.halReturns();
+                }
+                else {
                     this.parent.addLog("Remaining Cores: " + this.cores.join(", "));
                 }
                 if (this.coresRemaining == 0){

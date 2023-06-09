@@ -31,8 +31,7 @@ class HalCore extends AdventureRooms{
 
     constructor(parent){
         var verbs = [
-            "advance",
-            "yes"
+            "advance"
         ]
         var nouns = [
             "iv-2logicterminal1",
@@ -99,6 +98,7 @@ class HalCore extends AdventureRooms{
         this.coresRemaining = 28;
         this.meltdown = 0;
         this.lastLine = 0;
+        this.singing = false;
     }
 
     handleInput(input){
@@ -136,13 +136,16 @@ class HalCore extends AdventureRooms{
                 } //Removes core from list above
 
                 this.coresRemaining -= 1;
-                this.halReturns();
+                if (!this.singing){
+                    this.halReturns();
+                }
                 if (this.coresRemaining == 0){
                     this.parent.scene.start('credits_scene');
                 }
                 break;
 
             case "yes":
+                this.singing = true;
                 var index = this.verbs.indexOf("yes");
                 if (index !== -1) {
                     this.verbs.splice(index, 1);

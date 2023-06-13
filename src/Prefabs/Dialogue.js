@@ -4,37 +4,45 @@ class Dialogue extends Phaser.Scene {
     }
 
     preload(){
-        this.load.json('script_text', 'files/'+ this.script + '/1.json');
+        this.load.json('script_text', 'data/events/dialogues.json');
     }
 
     init(data){
-        this.script = data.dialoguePath;
+        this.scriptPath = data.dialoguePath;
         this.superScene = data.superScene;
     }
 
     create(){
-        this.cd = 500;
+        this.cd = 50;
         this.time = 0;
         this.iter = 0;
+        var data = this.cache.json.get('script_text');
+        this.script = data[this.scriptPath].scripts[0].replace("%s", metaDat.name);
         this.dialogue = this.add.sprite(0,0, 'dialogue').setOrigin(0,0);
         this.dialogue.setInteractive();
         this.dialogue.on('pointerdown', () => { (this.dialogueDown()); });
         this.text = this.add.bitmapText(45, 50, 'pixelfont', '', 20). setOrigin(0, 0);
         this.text.setTint(0xFF6600);
         this.text.maxWidth = 550;
+        this.wordsFinished = false;
     }
 
     update(time, delta){
         this.time += 1 * delta;
         if (this.time > this.cd && this.iter < this.script.length){
-            console.log('adding text');
             this.text.text += this.script[this.iter];
             this.iter += 1;
+            this.time = 0;
+        }
+        if (this.iter >= this.script.length){
+            this.wordsFinished = true;
         }
     }
 
     dialogueDown(){
-        this.superScene.enableButtons();
-        this.scene.stop('dialogue_subscene');
+        if(this.wordsFinished){
+            this.superScene.enableButtons();
+            this.scene.remove('dialogue_subscene');
+        }
     }
 }

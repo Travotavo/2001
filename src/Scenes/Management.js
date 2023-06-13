@@ -50,8 +50,12 @@ class Management extends Phaser.Scene {
     buttonDown(button, reset) {
         this.sound.play('select', {volume: 0.25});
         this.buttonOut(reset);
-        this.spawnDialogue(button);
-        this.updateMonth();
+        if (this.updateMonth()){
+            this.spawnDialogue(button);
+        }
+        else{
+            this.scene.start('adventure_scene');
+        }
     }
 
     enableButtons(){
@@ -64,6 +68,7 @@ class Management extends Phaser.Scene {
         this.buttonList.forEach(element => {
             element.disableInteractive();
         });
+        this.game.scene.add('dialogue_subscene', new Dialogue());
         let dialogue = this.scene.launch('dialogue_subscene', {dialoguePath: choice, superScene: this});
     }
 
@@ -72,9 +77,9 @@ class Management extends Phaser.Scene {
         this.months.text = this.monthCount + ' Months Remain';
         if (this.monthCount < 10){
             this.buttonList[3].text = '! Maintenance !'
-            this.scene.start('adventure_scene');
+            return false;
         }
-
+        return true;
     }
 
     buttonOut(button) {

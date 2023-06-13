@@ -1,0 +1,14 @@
+{
+    "Perambulation": {"scripts":["You runs some laps in the living space to keep in shape."]},
+    "Engagement": {"scripts":["You play a game of chess against Hal.\n[I'm sorry, %s, I think you missed it. Queen to Bishop 3, Bishop takes Queen, Knight takes Bishop. Mate.]   \nHal wins.   \nAgain."]},
+    "Pictograph": {"scripts":[
+        "You sketch the face of Victor Kaminski, one of the scientists in suspended animation.\n\n[That's a very nice rendering, %s. I think you've improved a great deal.]",
+        "You sketch the face of Peter Whitehead, one of the scientists in suspended animation.\n\n[That's a very nice rendering, %s. I think you've improved a great deal.]",
+        "You sketch the face of Charles Hunter, one of the scientists in suspended animation.\n\n[That's a very nice rendering, %s. I think you've improved a great deal.]"]},
+    "Maintenance": {
+        "scripts":[
+            "You perform a routine checkup of the suspended animation beds."
+        ]
+    }
+    
+}

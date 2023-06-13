@@ -12,7 +12,7 @@ class Menu extends Phaser.Scene {
     create(){
         this.title = this.add.sprite(0,0, 'title').setOrigin(0,0);
         game.canvas.onmousedown = e => {
-            this.scene.start('management_scene');
+            this.scene.start('start');
             game.canvas.onmousedown = e => {
                 //Screen Location Debug
                 const mouseX = e.clientX - game.canvas.offsetLeft;

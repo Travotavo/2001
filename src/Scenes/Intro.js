@@ -11,7 +11,7 @@ class Intro extends Phaser.Scene {
         this.inputText.setTint(0xFF6600);
 
         this.input.keyboard.on('keydown', function(input) {
-
+            //Re-used from Adventure scene
             //handles backspace
             if (input.keyCode == 8){
                 this.inputText.text = this.inputText.text.substring(0, this.inputText.text.length-1);
@@ -20,7 +20,7 @@ class Intro extends Phaser.Scene {
             //handles enter
             if (input.keyCode == 13){
                 metaDat.name = this.inputText.text;
-                this.scene.start('management_scene');
+                this.scene.start('adventure_scene');
             }
 
             //Handles Text and Important Special Characters

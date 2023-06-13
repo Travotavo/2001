@@ -9,14 +9,17 @@ class Adventure extends Phaser.Scene {
         this.load.audio('tap6', './assets/sounds/taps/tap6.wav');
         this.load.image('ui', './assets/sprites/ui/frames/adventure-frame.png');
         this.load.image('hal', './assets/sprites/ui/hal.png');
+        this.load.image('core', './assets/sprites/splashes/hal-core.png');
+        this.load.image('ship-door', './assets/sprites/splashes/ship-exterior.png');
+        this.load.image('bay', './assets/sprites/splashes/pod-bay.png');
     }
 
     constructor(){
         super("adventure_scene");
-        this.room = new HalCore(this);
     }
 
     create(){
+        this.room = new Bay(this);
         this.frame = this.add.sprite(0,0, 'ui').setOrigin(0,0);
         this.hal = this.add.sprite(0,0, 'hal').setOrigin(0,0);
         this.hal.setTint(0xFF6600);
@@ -71,5 +74,9 @@ class Adventure extends Phaser.Scene {
     addLog(input){
         input = input.replace("%s", metaDat.name);
         this.log.text += input + "\n";
+    }
+
+    clearLog(){
+        this.log.text = '';
     }
 }

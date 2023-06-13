@@ -1,6 +1,9 @@
-class AdventureRooms {
-    constructor(parent, verbArray, nounArray){
-        this.parent = parent;
+class AdventureRooms extends Phaser.GameObjects.Sprite{
+    constructor(scene, verbArray, nounArray, texture){
+        super(scene, 552, 83, texture);
+        scene.add.existing(this);
+        this.setOrigin(0.5,0.5);
+        this.parent = scene;
         this.verbs = verbArray;
         this.nouns = nounArray;
     }
@@ -15,25 +18,181 @@ class AdventureRooms {
     * 
     */
     handleInput(input){
+        input = input.toLowerCase().split(" ");
         if (input == "help" || input == "h"){
             this.parent.addLog("Available actions: "+ this.verbs.join(', '));
             return true;
         }
+        if (input == "clear" || input == "c"){
+            this.parent.clearLog();
+            return true;
+        }
         if (input == "look" || input == "l"){
-            this.parent.addLog("Looks like something (Not implemented yet)");
+            if (this.lookText != null){
+                this.parent.addLog(this.lookText);
+            }
+            else{
+                this.parent.addLog("Missing Look Text");
+            }
+            return true;
         }
     }
+
+
+
     interpretInput(input){
     }
     switchRoom(targetRoom){
         this.parent.room = targetRoom;
+        this.parent.clearLog();
+        this.destroy();
     }
 }
+class Bay extends AdventureRooms{
+    constructor(parent){
+        super(parent, ["help", "look", "clear", "open", "take", "rotate", "close"], ["Pod Bay Doors", "Spacesuit", "Eva Pod"], 'bay');
+        this.lookText = "You are in the pod bay of the Discovery. There is are several spacesuits meant for yourself and eventually the scientists in statis. The eva pod is required for this maintenance.";
+        this.podstate = {facing: false, open: false, inside: false};
+        this.spacesuit = false;
+    }
 
-class HalCore extends AdventureRooms{
+    handleInput(input){
+        if (super.handleInput(input)){
+            return true;
+        }
+        var verbIntersection = this.verbs.filter(i => input.toLowerCase().includes(i));
+        if (verbIntersection.length == 0){
+            this.parent.addLog("\""+input+"\" is not recognized");
+            this.parent.addLog("Use 'help' to see avaiable actions");
+            return;
+        }
+        if (verbIntersection.length > 1){
+            this.parent.addLog("Too many verbs!");
+            return;
+        }
+        this.interpretInput(input, verbIntersection[0]);
+    }
+
+    interpretInput(input, verb){
+        input = input.toLowerCase().split(" ");
+        var halHandle = input.filter(i => i == "hal" || i == "please").length > 0;
+        input = (input.filter(i => !(i == "hal" || i == "please" || i == verb)));
+        input.forEach(element => {
+            if (element != ''){
+                input[input.indexOf(element)] = element[0].toUpperCase() + element.slice(1);
+            }
+            
+        });
+        input = input.join(" ");
+        console.log(input);
+        if (!this.nouns.includes(input) && input != ''){
+            this.parent.addLog("\""+input+"\" is not recognized");
+            this.parent.addLog("Hint: " + this.nouns.join(', '));
+        }
+        switch(verb){
+            case "take":
+                if (input == "Spacesuit"){
+                    this.parent.addLog("You take your spacesuit.");
+                    this.verbs.push('wear');
+                    this.verbs = this.verbs.filter(i => !(i == "take"));
+                }
+                break;
+            case "wear":
+                if (input == "Spacesuit"){
+                    this.parent.addLog("You wear your spacesuit. Smart.");
+                    this.verbs = this.verbs.filter(i => !(i == "wear"));
+                    this.spacesuit = true;
+                }
+                break;
+            case "open":
+                if (input == "Eva Pod"){
+                    if (halHandle){
+                        if (this.podstate.open){
+                            this.parent.addLog("[The pod is already open.]");
+                            return;
+                        }
+                        this.parent.addLog("[Of course %s.]");
+                        this.parent.addLog("The pod is open.");
+                        this.podstate.open = true;
+                    }
+                    else{
+                        this.parent.addLog("You aren't able to open the pod in this way.");
+                        this.parent.addLog("Hint: Try addressing Hal.");
+                    }
+                    this.podcheck();
+                    return;
+                }
+                if (input == "Pod Bay Doors"){
+                    if (this.podstate.open || !this.podstate.inside || !this.spacesuit){
+                        this.parent.addLog("[%s, in your current circumstances, that action is not recommended]");
+                        return;
+                    }
+                    this.parent.addLog("[Of course %s.]");
+                    this.verbs = this.verbs.filter(i => !(i == "open"));
+                    this.verbs.push("advance");
+                    return;
+                }
+                this.parent.addLog("Action Invalid.");
+                break;
+            case "close":
+                if (input == "Eva Pod"){
+                    if (halHandle){
+                        if (!this.podstate.open){
+                            this.parent.addLog("[The pod is already closed.]");
+                            return;
+                        }
+                        this.parent.addLog("[Of course %s.]");
+                        this.parent.addLog("The pod is now closed.");
+                        this.podstate.open = false;
+                    }
+                    else{
+                        this.parent.addLog("You aren't able to open the pod in this way.");
+                        this.parent.addLog("Hint: Try addressing Hal.");
+                    }
+                    this.podcheck();
+                    return;
+                }
+            case "advance":
+                super.switchRoom(new HalCore(this.parent));
+                break;
+            case "enter":
+                this.podstate.inside = true;
+                this.verbs = this.verbs.filter(i => !(i == "enter"));
+                break;
+            case "rotate":
+                if (input == "Eva Pod"){
+                    if (halHandle){
+                        this.parent.addLog("[Of course %s.]");
+                        this.podstate.facing = !this.podstate.facing;
+                        this.parent.addLog("The pod door is facing " +((this.podstate.facing)? "towards the ship." : "towards space."));
+                    }
+                    else{
+                        this.parent.addLog("You aren't able to rotate the pod directly.");
+                        this.parent.addLog("Hint: Try addressing Hal.");
+                    }
+                    this.podcheck();
+                    return;
+                }
+                break;
+        }
+    }
+
+    podcheck(){
+        if (!this.nouns.includes('enter') && this.podstate.facing && this.podstate.open){
+            this.verbs.push('enter');
+        }
+        if (!this.podstate.facing || !this.podstate.open){
+            this.verbs = this.verbs.filter(i => !(i == "enter"));
+        }
+    }
+}
+class HalCore extends AdventureRooms {
 
     constructor(parent){
         var verbs = [
+            "help",
+            "look",
+            "clear",
             "advance"
         ]
         var nouns = [
@@ -67,7 +226,7 @@ class HalCore extends AdventureRooms{
             "memorycore12",
             "hal"
         ];
-        super(parent,verbs,nouns);
+        super(parent, verbs, nouns, 'core');
         this.cores = [
             "memorycore1",
             "memorycore2",
@@ -102,6 +261,7 @@ class HalCore extends AdventureRooms{
         this.meltdown = 0;
         this.lastLine = 0;
         this.singing = false;
+        
     }
 
     handleInput(input){

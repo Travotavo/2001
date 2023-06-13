@@ -14,7 +14,7 @@ class Management extends Phaser.Scene {
     create(){
         this.frame = this.add.sprite(0,0, 'storyframe').setOrigin(0,0);
 
-        this.months = this.add.bitmapText(550, 30, 'pixelfont', '28 Months Remain', 10). setOrigin(0.5, 0.5);
+        this.months = this.add.bitmapText(550, 30, 'pixelfont', '26 Months Remain', 10).setOrigin(0.5, 0.5);
         this.months.setTint(0xFF6600);
         this.months.maxWidth = 433;
 
@@ -25,7 +25,7 @@ class Management extends Phaser.Scene {
             "Maintenance"
         ];
 
-        this.monthCount = 28;
+        this.monthCount = 26;
 
         this.buttonList = [];
         var temp = 1;
@@ -50,11 +50,20 @@ class Management extends Phaser.Scene {
     buttonDown(button, reset) {
         this.sound.play('select', {volume: 0.25});
         this.buttonOut(reset);
-        if (this.updateMonth()){
-            this.spawnDialogue(button);
+        if (this.monthCount != 10){
+            if (this.updateMonth()){
+                this.spawnDialogue(button);
+            }
+            else{
+                this.scene.start('adventure_scene');
+            }
         }
-        else{
-            this.scene.start('adventure_scene');
+        else {
+            this.spawnDialogue('Final');
+            this.buttonList[0].visible = false;
+            this.buttonList[1].visible = false;
+            this.buttonList[2].visible = false;
+            this.monthCount -= 1;
         }
     }
 

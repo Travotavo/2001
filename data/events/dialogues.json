@@ -32,6 +32,11 @@
             "You perform a routine check on the gravity stabilizers. Nothing seems to be out of the ordinary.",
             "You perform a quick check on the food and water recycling systems. Nothing seems to be out of the ordinary."
         ]
+    },
+    "Final": {
+        "scripts":[
+            "[Just a moment... Just a moment... I've just picked up a fault in the AE-35 unit. It's going to go 100% failure within 72 hours. It is necessary for you to repair it, %s.]"
+        ]
     }
     
 }

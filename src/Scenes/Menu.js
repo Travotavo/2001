@@ -1,6 +1,8 @@
 class Menu extends Phaser.Scene {
     preload(){
         this.load.image('title', './assets/sprites/ui/title.png');
+        let file = 'thick_8x8';
+        this.load.bitmapFont('pixelfont', 'assets/fonts/' + file + '.png', 'assets/fonts/' + file + '.xml');
     }
 
     constructor(){
@@ -10,7 +12,7 @@ class Menu extends Phaser.Scene {
     create(){
         this.title = this.add.sprite(0,0, 'title').setOrigin(0,0);
         game.canvas.onmousedown = e => {
-            this.scene.start('adventure_scene');
+            this.scene.start('management_scene');
             game.canvas.onmousedown = e => {
                 //Screen Location Debug
                 const mouseX = e.clientX - game.canvas.offsetLeft;

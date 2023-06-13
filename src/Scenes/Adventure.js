@@ -9,8 +9,6 @@ class Adventure extends Phaser.Scene {
         this.load.audio('tap6', './assets/sounds/taps/tap6.wav');
         this.load.image('ui', './assets/sprites/ui/frames/adventure-frame.png');
         this.load.image('hal', './assets/sprites/ui/hal.png');
-        let file = 'thick_8x8';
-        this.load.bitmapFont('pixelfont', 'assets/fonts/' + file + '.png', 'assets/fonts/' + file + '.xml');
     }
 
     constructor(){

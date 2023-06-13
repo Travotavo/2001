@@ -69,6 +69,7 @@ class Adventure extends Phaser.Scene {
     }
 
     addLog(input){
+        input = input.replace("%s", metaDat.name);
         this.log.text += input + "\n";
     }
 }

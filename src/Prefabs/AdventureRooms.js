@@ -324,7 +324,7 @@ class HalCore extends AdventureRooms {
                 break;
             case "advance":
                 this.verbs.push("remove");
-                this.verbs.shift();
+                this.verbs = this.verbs.filter(i => !(i == "advance"));
                 this.halReturns();
                 this.parent.addLog("The dangerous parts of the computer consists of 12 Memory Cores, 12 IV-3 Logic Terminals, and 4 IV-2 Logic Terminals");
                 break;

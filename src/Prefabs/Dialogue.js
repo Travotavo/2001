@@ -10,6 +10,7 @@ class Dialogue extends Phaser.Scene {
     init(data){
         this.scriptPath = data.dialoguePath;
         this.superScene = data.superScene;
+        this.buttons = data.buttons;
     }
 
     create(){

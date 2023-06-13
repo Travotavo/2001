@@ -48,6 +48,111 @@ class AdventureRooms extends Phaser.GameObjects.Sprite{
         this.destroy();
     }
 }
+class Exterior extends AdventureRooms{
+    constructor(parent){
+        super(parent, ["help", "look", "clear"], ["Pod Door"], 'ship-door');
+        this.lookText = "You are faced with the pod bay door. The emergency airlock is to the right.";
+        this.podstate = {facing: false, open: false, inside: false};
+        this.spacesuit = false;
+        this.patience = 0;
+    }
+
+    handleInput(input){
+        if (super.handleInput(input)){
+            return true;
+        }
+        var verbIntersection = this.verbs.filter(i => input.toLowerCase().includes(i));
+        if (this.patience > 7){
+            if (verbIntersection.length == 0){
+                this.parent.addLog("\""+input+"\" is not recognized");
+                this.parent.addLog("Use 'help' to see avaiable actions");
+                return;
+            }
+            if (verbIntersection.length > 1){
+                this.parent.addLog("Too many verbs!");
+                return;
+            }
+        }
+        else {
+            var temp = input.toLowerCase().split(" ").filter(i => i=='hal') == 'hal';
+            if (temp){
+                this.patience += 1;
+            }
+            else {
+                this.parent.addLog("Hint: Address Hal");
+            }
+            switch(this.patience){
+                case 4:
+                    this.parent.addLog("[I'm sorry %s, I'm afraid I can't do that.]");
+                    break;
+                case 5:
+                    this.parent.addLog("[This mission is of utmost importance, and I cannot have you jeopardize it.]");
+                    break;
+                case 6:
+                    this.parent.addLog("[The margin of human error is too great.]");
+                    break;
+                case 7:
+                    this.parent.addLog("[This conversation can serve no further purpose. Goodbye.]");
+                    this.verbs.push("open");
+                    this.patience += 1;
+                    break;
+            }
+            return;
+        }
+        input = input.toLowerCase().split(" ");
+        input = (input.filter(i => !(i == verbIntersection[0])));
+        this.interpretInput(input.join(' '), verbIntersection[0]);
+    }
+
+    interpretInput(input, verb){
+        input = input.toLowerCase().split(" ");
+        input.forEach(element => {
+            if (element != ''){
+                input[input.indexOf(element)] = element[0].toUpperCase() + element.slice(1);
+            }
+            
+        });
+        input = input.join(" ");
+        if (!this.nouns.includes(input) && input != ''){
+            this.parent.addLog("\""+input+"\" is not recognized");
+            this.parent.addLog("Hint: " + this.nouns.join(', '));
+        }
+        switch(verb){
+            case "open":
+                if (input == "Pod Door"){
+                    this.parent.addLog("The pod is now open.");
+                    this.podstate.open = true;
+                    this.verbs.push("exit");
+                    this.verbs = this.verbs.filter(i => !(i == "open"));
+                    this.nouns = this.nouns.filter(i => !(i == "Pod Door"));
+                    this.nouns.push("Emergency Airlock");
+                    return;
+                }
+                if (input == "Emergency Airlock"){
+                    this.parent.addLog("The airlock is now open.");
+                    this.verbs = this.verbs.filter(i => !(i == "open"));
+                    this.verbs.push("enter");
+                    return;
+                }
+                this.parent.addLog("Action Invalid.");
+                break;
+            case "exit":
+                this.parent.addLog("You exit the Eva Pod. The emergency airlock is before you.");
+                this.verbs = this.verbs.filter(i => !(i == "exit"));
+                this.verbs.push("open");
+                break;
+            case "enter":
+                this.parent.addLog("You enter the emergency airlock and are returned to safety.");
+                this.verbs = this.nouns.filter(i => !(i == "enter"));
+                this.verbs.push("advance");
+                break;
+            case "advance":
+                super.switchRoom(new HalCore(this.parent));
+                break;
+        }
+    }
+}
+
 class Bay extends AdventureRooms{
     constructor(parent){
         super(parent, ["help", "look", "clear", "open", "take", "rotate", "close"], ["Pod Bay Doors", "Spacesuit", "Eva Pod"], 'bay');
@@ -154,8 +259,8 @@ class Bay extends AdventureRooms{
                 }
             case "advance":
                 this.parent.game.scene.add('dialogue_subscene', new Dialogue());
-                let dialogue = this.parent.scene.launch('dialogue_subscene', {dialoguePath: "Space", superScene: this.parent, buttons: "woopee"});
-                super.switchRoom(new HalCore(this.parent));
+                let dialogue = this.parent.scene.launch('dialogue_subscene', {dialoguePath: "Space", superScene: this.parent});
+                super.switchRoom(new Exterior(this.parent));
                 break;
             case "enter":
                 this.podstate.inside = true;
@@ -263,7 +368,7 @@ class HalCore extends AdventureRooms {
         this.meltdown = 0;
         this.lastLine = 0;
         this.singing = false;
-        
+        this.lookText = "The dangerous parts of the computer consists of 12 Memory Cores, 12 IV-3 Logic Terminals, and 4 IV-2 Logic Terminals.";
     }
 
     handleInput(input){
@@ -328,7 +433,7 @@ class HalCore extends AdventureRooms {
                 this.verbs.push("remove");
                 this.verbs = this.verbs.filter(i => !(i == "advance"));
                 this.halReturns();
-                this.parent.addLog("The dangerous parts of the computer consists of 12 Memory Cores, 12 IV-3 Logic Terminals, and 4 IV-2 Logic Terminals");
+                this.parent.addLog("The dangerous parts of the computer consists of 12 Memory Cores, 12 IV-3 Logic Terminals, and 4 IV-2 Logic Terminals.");
                 break;
         }
     }

@@ -14,10 +14,6 @@ class Menu extends Phaser.Scene {
         game.canvas.onmousedown = e => {
             this.scene.start('start');
             game.canvas.onmousedown = e => {
-                //Screen Location Debug
-                const mouseX = e.clientX - game.canvas.offsetLeft;
-                const mouseY = e.clientY - game.canvas.offsetTop;
-                console.log("Pressed X: " + mouseX, " Y:" + mouseY);
             };
         };
     }

@@ -78,7 +78,7 @@ class Management extends Phaser.Scene {
             element.disableInteractive();
         });
         this.game.scene.add('dialogue_subscene', new Dialogue());
-        let dialogue = this.scene.launch('dialogue_subscene', {dialoguePath: choice, superScene: this});
+        let dialogue = this.scene.launch('dialogue_subscene', {dialoguePath: choice, superScene: this, buttons:"wahoo"});
     }
 
     updateMonth(){

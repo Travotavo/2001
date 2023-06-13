@@ -20,7 +20,7 @@ class Intro extends Phaser.Scene {
             //handles enter
             if (input.keyCode == 13){
                 metaDat.name = this.inputText.text;
-                this.scene.start('adventure_scene');
+                this.scene.start('management_scene');
             }
 
             //Handles Text and Important Special Characters

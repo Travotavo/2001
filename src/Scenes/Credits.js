@@ -16,7 +16,6 @@ class Credits extends Phaser.Scene {
         game.canvas.onmousedown = e => {
             this.scene.start('main_menu');
             game.canvas.onmousedown = e => {
- 
             };
         };
     }

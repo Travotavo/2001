@@ -4,6 +4,7 @@ class Management extends Phaser.Scene {
         this.load.image('storyframe', './assets/sprites/ui/frames/story-frame.png');
         this.load.audio('hover', './assets/sounds/selects/hover.wav');
         this.load.audio('select', './assets/sounds/selects/action.wav');
+        this.load.image('dialogue', './assets/sprites/ui/story-popup.png')
     }
 
     constructor(){
@@ -35,7 +36,7 @@ class Management extends Phaser.Scene {
             this.buttonList[i].setInteractive({ useHandCursor: true });
             this.buttonList[i].on('pointerover', () => { this.buttonHover(this.buttonList[i]); });
             this.buttonList[i].on('pointerout', () => { this.buttonOut(this.buttonList[i]); });
-            this.buttonList[i].on('pointerdown', () => { this.buttonDown(actionList[i]); });
+            this.buttonList[i].on('pointerdown', () => { this.buttonDown(actionList[i], this.buttonList[i]); });
             temp += 1;
         }
         //550  Y:26
@@ -43,22 +44,36 @@ class Management extends Phaser.Scene {
 
     buttonHover(button) {
         button.setTint(0x000000);
-        this.sound.play('hover', {volume: 0.5});
+        this.sound.play('hover', {volume: 0.25});
     }
 
-    buttonDown(button) {
-        this.sound.play('select', {volume: 0.5});
-        this.spawnDialogue();
+    buttonDown(button, reset) {
+        this.sound.play('select', {volume: 0.25});
+        this.buttonOut(reset);
+        this.spawnDialogue(button);
         this.updateMonth();
     }
 
-    spawnDialogue(){
+    enableButtons(){
+        this.buttonList.forEach(element => {
+            element.setInteractive();
+        });
+    }
 
+    spawnDialogue(choice){
+        this.buttonList.forEach(element => {
+            element.disableInteractive();
+        });
+        let dialogue = this.scene.launch('dialogue_subscene', {dialoguePath: choice, superScene: this});
     }
 
     updateMonth(){
         this.monthCount -= 1;
         this.months.text = this.monthCount + ' Months Remain';
+        if (this.monthCount < 10){
+            this.buttonList[3].text = '! Maintenance !'
+            this.scene.start('adventure_scene');
+        }
 
     }
 

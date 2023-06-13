@@ -43,7 +43,9 @@ class Dialogue extends Phaser.Scene {
 
     dialogueDown(){
         if(this.wordsFinished){
-            this.superScene.enableButtons();
+            if (this.buttons != null){
+                this.superScene.enableButtons();
+            }
             this.scene.remove('dialogue_subscene');
         }
     }

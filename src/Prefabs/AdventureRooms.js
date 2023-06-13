@@ -153,6 +153,8 @@ class Bay extends AdventureRooms{
                     return;
                 }
             case "advance":
+                this.parent.game.scene.add('dialogue_subscene', new Dialogue());
+                let dialogue = this.parent.scene.launch('dialogue_subscene', {dialoguePath: "Space", superScene: this.parent, buttons: "woopee"});
                 super.switchRoom(new HalCore(this.parent));
                 break;
             case "enter":

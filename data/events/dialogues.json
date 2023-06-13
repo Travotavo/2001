@@ -37,6 +37,11 @@
         "scripts":[
             "[Just a moment... If I may have your attention, %s.I've just picked up a fault in the AE-35 unit. It's going to go 100% failure within 72 hours. It is necessary for you to repair it.]"
         ]
+    },
+    "Space": {
+        "scripts":[
+            "After working hard to determine if anything is wrong with the AE-35 unit, you are unable to find any faults in the system. You return to the pod bay doors"
+        ]
     }
     
 }

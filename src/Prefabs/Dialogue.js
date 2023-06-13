@@ -17,7 +17,9 @@ class Dialogue extends Phaser.Scene {
         this.time = 0;
         this.iter = 0;
         var data = this.cache.json.get('script_text');
-        this.script = data[this.scriptPath].scripts[0].replace("%s", metaDat.name);
+        this.script = data[this.scriptPath].scripts[
+            Math.floor(Math.random() * data[this.scriptPath].scripts.length)
+        ].replace("%s", metaDat.name);
         this.dialogue = this.add.sprite(0,0, 'dialogue').setOrigin(0,0);
         this.dialogue.setInteractive();
         this.dialogue.on('pointerdown', () => { (this.dialogueDown()); });

@@ -1,13 +1,36 @@
 {
-    "Perambulation": {"scripts":["You runs some laps in the living space to keep in shape."]},
-    "Engagement": {"scripts":["You play a game of chess against Hal.\n[I'm sorry, %s, I think you missed it. Queen to Bishop 3, Bishop takes Queen, Knight takes Bishop. Mate.]   \nHal wins.   \nAgain."]},
+    "Perambulation": {"scripts":[
+            "You runs some laps in the living space to keep in shape.",
+            "You perform some yoga, it's quite relaxing and helps pass the time.",
+            "You perform some squats and lunges to strengthen your legs.",
+            "Using some handgrips, you work some grip strength exercises.",
+            "Lifting some weights, you stave off muscle atrophy",
+            "You cycle on a stationary bike, you maintain your cardiovascular health."
+        ]},
+    "Engagement": {"scripts":[
+        "You play a game of chess against Hal.\n[I'm sorry, %s, I think you missed it. Queen to Bishop 3, Bishop takes Queen, Knight takes Bishop. Mate.]   \nHal wins.   \nAgain.",
+        "You play a game of chess against Hal.\n[I'm sorry, %s, I think you missed it. Queen to H 7, Check, King forced to G 8, Queen to H8. Mate.]   \nHal wins.   \nAgain.",
+        "You play a game of chess against Hal.\n[I'm sorry, %s, I think you missed it. Queen to H 5, Check, Knight must interpose, Queen to F7 for a discovered pin. Mate.]   \nHal wins.   \nAgain.",
+        "You play a game of chess against Hal.\n[I'm sorry, %s, I think you missed it. Bishop to E 6, Check, Knight takes Bishop, Queen takes Knight. Mate.]   \nHal wins.   \nAgain.",
+        "You play a game of chess against Hal.\n[I'm sorry, %s, that was quite the blunder. Bishop to G 8. Mate.]   \nHal wins.   \nAgain.",
+        "You play a game of chess against Hal.\n[I'm sorry, %s, that was quite the blunder. Rook to E 4. Mate.]   \nHal wins.   \nAgain.",
+        "You play a game of chess against Hal.\n[I'm sorry, %s, that was quite the blunder. Knight to C 4. Mate.]   \nHal wins.   \nAgain."
+    ]},
     "Pictograph": {"scripts":[
         "You sketch the face of Victor Kaminski, one of the scientists in suspended animation.\n\n[That's a very nice rendering, %s. I think you've improved a great deal.]",
         "You sketch the face of Peter Whitehead, one of the scientists in suspended animation.\n\n[That's a very nice rendering, %s. I think you've improved a great deal.]",
-        "You sketch the face of Charles Hunter, one of the scientists in suspended animation.\n\n[That's a very nice rendering, %s. I think you've improved a great deal.]"]},
+        "You sketch the face of Charles Hunter, one of the scientists in suspended animation.\n\n[That's a very nice rendering, %s. I think you've improved a great deal.]",
+        "You decide sketch a still life of your lunch.\n\n[That's a very nice rendering, %s. You seem to be quite capable drawing scenery.]",
+        "You sketch a still life of the HAL 9000.\n\n[That's a very nice rendering, %s. I think the harsher geometric shapes are handled very well.]",
+        "You sketch a rendering of your own face.\n\n[Is that you, %s. That's a very nice rendering.]"]},
     "Maintenance": {
         "scripts":[
-            "You perform a routine checkup of the suspended animation beds."
+            "You perform a routine checkup of the suspended animation beds. Nothing seems to be out of the ordinary.",
+            "You perform a short health checkup. Nothing seems to be out of the ordinary.",
+            "You perform a routine checkup of the solar energy and batteries. Nothing seems to be out of the ordinary.",
+            "You perform a quick clear of the structural integrity markers. Nothing seems to be out of the ordinary.",
+            "You perform a routine check on the gravity stabilizers. Nothing seems to be out of the ordinary.",
+            "You perform a quick check on the food and water recycling systems. Nothing seems to be out of the ordinary."
         ]
     }
     
